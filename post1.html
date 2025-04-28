@@ -64,22 +64,6 @@
     <li><strong>Hold two sessions</strong> and watch how the server stays in sync.</li>
   </ul>
 
-  <h2>Tools That Help</h2>
-  <ul>
-    <li><strong>Burp Repeater</strong> to replay and diff.</li>
-    <li><strong>Turbo Intruder</strong> for fast races.</li>
-    <li><strong>Custom scripts</strong> in mitmproxy or Burp to automate weird flows.</li>
-    <li><strong>Server logs</strong> if you have them—great for spotting silent logic errors.</li>
-  </ul>
-
-  <h2>How to Fix These Bugs</h2>
-  <ul>
-    <li>Check all critical values on the server, never trust the client.</li>
-    <li>Use DB locks or queues for anything that moves money or stock.</li>
-    <li>Make APIs idempotent so repeat calls do nothing extra.</li>
-    <li>Write tests for edge cases: big numbers, negative numbers, double clicks.</li>
-  </ul>
-
   <h2>Takeaways</h2>
   <p>Business-logic flaws hide in the rules, not the code. Learn the rules, think like a sneaky insider, and you will find bugs scanners miss—and companies pay you to fix.</p>
 
