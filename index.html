@@ -8,46 +8,80 @@
     :root {
       --bg: #0d0d0d;
       --fg: #e5e5e5;
-      --accent: #ff4040; /* red accent */
+      --accent: #ff4040;
     }
-
-    * { box-sizing: border-box; }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       background: var(--bg);
       color: var(--fg);
       font-family: "Fira Code", monospace;
     }
-
+    header { width: 100%; max-width: 960px; padding: 2rem 1rem; text-align: center; }
+    nav a {
+      margin: 0 .75rem;
+      color: var(--fg);
+      text-decoration: none;
+      font-size: .9rem;
+      opacity: .8;
+    }
+    nav a:hover { color: var(--accent); }
     h1 {
       font-size: clamp(3rem, 8vw, 6rem);
-      margin: 0 0 1rem 0;
       letter-spacing: .05em;
       text-transform: uppercase;
       color: var(--accent);
+      margin-bottom: .5rem;
     }
-
-    .handle {
-      font-size: 1rem;
-      opacity: .85;
-    }
-
-    .handle a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
+    .subtitle { font-size: 1.1rem; opacity: .7; margin-bottom: 2rem; }
+    .handle { font-size: 1rem; opacity: .85; }
+    .handle a { color: var(--accent); text-decoration: none; }
     .handle a:hover { text-decoration: underline; }
+
+    /* posts list */
+    #posts { width: 100%; max-width: 720px; padding: 2rem 1rem; }
+    .post-card {
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 1.2rem 1.6rem;
+      margin-bottom: 1rem;
+      transition: border .2s, transform .2s;
+    }
+    .post-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .post-card a { color: var(--fg); text-decoration: none; }
+    .post-title { font-size: 1.25rem; margin-bottom: .3rem; }
+    .post-desc  { font-size: .9rem; opacity: .75; }
   </style>
 </head>
 <body>
+
+<header>
   <h1>just a web pwner</h1>
-  <p class="handle">madaraninja1337 · <a href="https://hackerone.com/madaraninja" target="_blank" rel="noopener">HackerOne</a></p>
+  <p class="subtitle">the bug bounty guy, vibe bug bountying and ...</p>
+  <p class="handle">
+    madaraninja1337 &middot;
+    <a href="https://hackerone.com/madaraninja" target="_blank" rel="noopener">HackerOne</a>
+  </p>
+  <nav>
+    <a href="/">Home</a>
+    <a href="#posts">Posts</a>
+  </nav>
+</header>
+
+<section id="posts">
+  <div class="post-card">
+    <a href="post1.html">
+      <div class="post-title">BUSINESS LOGIC FLAW: THE FAVORITE VULNERABILITY OF MAJOR PROGRAMS</div>
+      <div class="post-desc">An exploration of business logic flaws: the subtle vulnerabilities that bypass security controls by exploiting flawed application logic rather than technical weaknesses</div>
+    </a>
+  </div>
+</section>
+
 </body>
 </html>
