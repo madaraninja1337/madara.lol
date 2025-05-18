@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stop Scanning, Start Hacking · madara.lol</title>
+  <style>
+    :root { --bg:#0d0d0d; --fg:#e5e5e5; --accent:#ff4040; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{min-height:100vh;background:var(--bg);color:var(--fg);font-family:"Fira Code",monospace;line-height:1.6;display:flex;flex-direction:column;align-items:center}
+    article{max-width:720px;padding:2rem 1rem}
+    h1{margin-bottom:.5rem;font-size:clamp(2.5rem,6vw,4rem);color:var(--accent)}
+    .meta{font-size:.85rem;opacity:.65;margin-bottom:1.5rem}
+    h2{margin-top:2rem;font-size:1.4rem;color:var(--accent)}
+    p{margin:1rem 0}
+    strong{color:var(--fg)}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <article>
+    <h1>STOP SCANNING, START HACKING: HOW TO GRAB EASY (BUT REAL) BOUNTIES MANUALLY</h1>
+    <p class="meta">MadaraCracker · 4 min read · 4 hours ago</p>
+    <p>A lot of bug hunters tend to jump into applications without a solid game plan. They end up spinning their wheels, unsure which vulnerabilities are worth chasing. In this piece, I want to offer some hands-on advice by pointing out a few common — but often overlooked — security flaws. Think of them as low-hanging fruit that most scanners miss. My aim is to nudge you away from relying solely on automated tools (which, let’s be honest, usually lead to a pile of duplicates) and toward more focused, manual testing. This approach can help you discover higher-value bugs like race conditions, CSRF issues, and IDORs — vulnerabilities that not only bring better payouts but also make your findings stand out in the crowd.</p>
+
+    <h2>IDOR</h2>
+    <p>Now, to get you started, I’ll introduce you to the vulnerability type responsible for most of my successful bounties: Insecure Direct Object References (IDORs). In simple terms, an IDOR happens when an application directly uses identifiers — like a user’s ID, account numbers, invoices, or records — in URLs or requests without proper authorization checks. What this means in practice is pretty straightforward — if you tweak certain identifiers in a request, there’s a chance you could stumble into someone else’s data. Here’s a simple example to illustrate: suppose you’re browsing a URL like <code>example.com/api/profile?id=1001</code>. Now, if you swap that 1001 for 1002 and suddenly you're looking at another user’s personal profile, well—congrats! You've just uncovered an IDOR vulnerability. This issue occurs because the application isn't verifying if you're authorized to view that particular user's data, which makes it surprisingly common and lucrative to discover.</p>
+    <p>Finding IDORs manually is straightforward. First, look closely at requests, especially those containing IDs or UUIDs. Then, systematically alter these IDs while observing the responses from the server. Watch out for changes in HTTP status codes (like switching from 403 Forbidden to 200 OK), or seeing data from another user being displayed. IDORs remain highly rewarding vulnerabilities precisely because automated scanners rarely catch them, making your manual hunting skills extremely valuable.</p>
+    <p><strong>Tip:</strong> You can use the Wayback Machine on Archive.org to uncover old endpoints that might still be vulnerable to IDORs. Additionally, inspect the page’s JavaScript for hidden or undocumented endpoints that could expose direct object references.</p>
+
+    <h2>CSRF</h2>
+    <p>One of the vulnerabilities I encounter less frequently is Cross-Site Request Forgery (CSRF) — though, to be fair, that’s mostly because I’m not actively hunting for them as much. However, it’s still worth mentioning. CSRF occurs when an attacker tricks a logged-in user into submitting a request they didn’t intend to. For instance, imagine you’re logged into your bank and click a seemingly innocent link; this link could trigger a hidden request transferring funds without your knowledge.</p>
+    <p>Finding CSRF manually is straightforward: look for sensitive actions (like changing email addresses, transferring money, or updating profiles) that rely solely on session cookies without adequate CSRF tokens or validation mechanisms. If an attacker can replicate these requests externally, you’ve just discovered a valuable vulnerability.</p>
+    <p><strong>Tip:</strong> When testing GraphQL endpoints for CSRF, try sending queries and parameters via a GET request. Many applications mistakenly allow this, creating an easy avenue for CSRF attacks.</p>
+
+    <h2>Race Conditions</h2>
+    <p>Race conditions are among those peculiar vulnerabilities where the bounty is either impressively high or disappointingly zero — it’s truly an “all or nothing” type of flaw. A race condition happens when two or more requests are processed simultaneously by the server in an unintended sequence, leading to unexpected outcomes, like duplicate payments, privilege escalation, or data corruption.</p>
+    <p>Testing race conditions manually involves sending multiple rapid-fire requests using tools like Burp Suite’s Turbo Intruder or custom scripts to force the server into mishandling concurrent operations. A classic example is trying to redeem the same promotional code or coupon multiple times in parallel. If you find a race condition, chances are good you’ll score a generous bounty, precisely because automated scanners struggle to replicate these conditions accurately.</p>
+    <p><strong>Tip:</strong> When hunting for race conditions, try focusing on less obvious user flows like login attempts, password resets, or email verifications. These overlooked endpoints often aren’t thoroughly tested against simultaneous requests, making them ripe targets for race condition vulnerabilities.</p>
+
+    <h2>Conclusion</h2>
+    <p>I wrote this article to help you move beyond automated scanners and duplicated vulnerabilities, encouraging you to get your hands dirty with simple yet impactful manual testing. Remember, vulnerabilities like IDORs, CSRF, and Race Conditions are out there waiting to be found — they just need a bit of your attention and creativity. These bugs are common, often overlooked, and typically can’t be found reliably by automated tools.</p>
+    <p>As a final piece of advice, always invest time writing clear and well-structured bug reports (even though, honestly, I often struggle with this myself). A good report is crucial: sometimes triagers aren’t fully aware of the potential impact or struggle to reproduce your issue. If your explanation isn’t clear enough, a valuable vulnerability might be misclassified or unfairly marked as duplicate.</p>
+
+    <p><a href="/">← Back to madara.lol</a></p>
+  </article>
+</body>
+</html>
