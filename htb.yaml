@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: SSRF
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1   
+
+paths:
+  /fetch:
+    get:
+      summary: “Endpoint que vai buscar a URL enviada (potencial SSRF)”
+      parameters:
+        - in: query
+          name: url
+          required: true
+          schema:
+            type: string
+          description: “URL que o servidor irá acessar internamente”
+      responses:
+        '200':
+          description: “Conteúdo retornado pela URL buscada”
+          content:
+            text/plain:
+              schema:
+                type: string
