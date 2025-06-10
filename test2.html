@@ -1,4 +1,158 @@
-<article>
-  <p>Lots of text …</p>
-  <svg xmlns="http://www.w3.org/2000/svg" onload="alert('1')"></svg>
+<article><!-- PoC #1 -->
+  <p>This is a completely benign article with plain text only. It has enough words to be recognized by Reader Mode, but no active content whatsoever.</p>
+</article>
+
+<article><!-- PoC #2 -->
+  <p>Basic inline SVG element test for Reader Mode.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+    <circle cx="10" cy="10" r="8" fill="blue"/>
+  </svg>
+</article>
+
+<article><!-- PoC #3 -->
+  <p>SVG with onload event attribute.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" onload="alert('PoC-3: onload')" width="1" height="1"></svg>
+</article>
+
+<article><!-- PoC #4 -->
+  <p>SVG &lt;image&gt; using a data URI.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+    <image width="16" height="16" href="data:image/png;base64,iVBORw0KGgo=" />
+  </svg>
+</article>
+
+<article><!-- PoC #5 -->
+  <p>SVG &lt;image&gt; with legacy xlink:href to remote resource.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+       xmlns:xlink="http://www.w3.org/1999/xlink">
+    <image width="16" height="16" xlink:href="https://example.com/logo.png" />
+  </svg>
+</article>
+
+<article><!-- PoC #6 -->
+  <p>SVG &lt;animate&gt; element with onbegin handler.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.1s"
+             onbegin="alert('PoC-6: animate onbegin')" />
+  </svg>
+</article>
+
+<article><!-- PoC #7 -->
+  <p>SVG &lt;set&gt; element with onbegin event.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+    <rect id="r" width="10" height="10"/>
+    <set attributeName="fill" to="red" begin="0s"
+         onbegin="alert('PoC-7: set onbegin')" />
+  </svg>
+</article>
+
+<article><!-- PoC #8 -->
+  <p>SVG &lt;use&gt; referencing an internal &lt;path&gt; via xlink:href.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+       width="24" height="4">
+    <defs><path id="line" d="M0 2 L24 2" stroke="black"/></defs>
+    <use xlink:href="#line" />
+  </svg>
+</article>
+
+<article><!-- PoC #9 -->
+  <p>SVG &lt;foreignObject&gt; embedding HTML.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40">
+    <foreignObject width="120" height="40">
+      <p xmlns="http://www.w3.org/1999/xhtml" style="color:red;">ForeignObject text</p>
+    </foreignObject>
+  </svg>
+</article>
+
+<article><!-- PoC #10 -->
+  <p>MathML content.</p>
+  <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mtext>√(a² + b²)</mtext>
+  </math>
+</article>
+
+<article><!-- PoC #11 -->
+  <p>Style tag with keyframes animation.</p>
+  <style>
+    @keyframes fade { from { opacity:0 } to { opacity:1 } }
+    div.anim { animation:fade 1s forwards; width:50px; height:10px; background:#0f0; }
+  </style>
+  <div class="anim"></div>
+</article>
+
+<article><!-- PoC #12 -->
+  <p>Inline SVG &lt;style&gt; defining animation.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+    <style><![CDATA[
+      @keyframes pulse { 0%{r:4} 100%{r:8} }
+      circle { animation:pulse 1s infinite alternate; fill:purple; }
+    ]]></style>
+    <circle cx="12" cy="12" r="4"/>
+  </svg>
+</article>
+
+<article><!-- PoC #13 -->
+  <p>SVG filter with &lt;feImage&gt; that uses a data URI.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+      <filter id="f1"><feImage xlink:href="data:image/png;base64,iVBORw0KGgo=" result="img"/></filter>
+    </defs>
+    <rect width="20" height="20" filter="url(#f1)"/>
+  </svg>
+</article>
+
+<article><!-- PoC #14 -->
+  <p>SVG element with mouseover event.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+    <g onmouseover="alert('PoC-14: mouseover')">
+      <rect width="16" height="16" fill="orange"/>
+    </g>
+  </svg>
+</article>
+
+<article><!-- PoC #15 -->
+  <p>HTML &lt;img&gt; with data URI source.</p>
+  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Crect width='10' height='10' fill='%2300f'/%3E%3C/svg%3E" alt="data"/>
+</article>
+
+<article><!-- PoC #16 -->
+  <p>SVG &lt;a&gt; tag with javascript: URL.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <a xlink:href="javascript:alert('PoC-16 link')" target="_top">
+      <text x="0" y="15">Click me</text>
+    </a>
+  </svg>
+</article>
+
+<article><!-- PoC #17 -->
+  <p>SVG clipPath usage.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+    <defs><clipPath id="c"><circle cx="10" cy="10" r="8"/></clipPath></defs>
+    <rect width="20" height="20" fill="green" clip-path="url(#c)"/>
+  </svg>
+</article>
+
+<article><!-- PoC #18 -->
+  <p>SVG &lt;image&gt; with modern href attribute.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+    <image width="16" height="16" href="https://example.com/pic.png" />
+  </svg>
+</article>
+
+<article><!-- PoC #19 -->
+  <p>SVG &lt;image&gt; with onerror handler.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8">
+    <image href="nonexistent.png" width="8" height="8"
+           onerror="alert('PoC-19: image error')"/>
+  </svg>
+</article>
+
+<article><!-- PoC #20 -->
+  <p>SVG &lt;animateMotion&gt; with onend handler.</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+    <circle cx="0" cy="0" r="2" fill="red">
+      <animateMotion dur="1s" path="M0,0 L18,18"
+                     onend="alert('PoC-20 motion end')" />
+    </circle>
+  </svg>
 </article>
