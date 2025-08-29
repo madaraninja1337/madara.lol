@@ -1,5 +1,6 @@
 (async () => {
   try {
+    alert(1);
     const response = await fetch("https://www.tumblr.com/api/v2/user/settings", {
       headers: {
         "accept": "application/json;format=camelcase",
